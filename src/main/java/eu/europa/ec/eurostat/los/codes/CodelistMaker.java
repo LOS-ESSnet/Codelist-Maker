@@ -17,6 +17,8 @@ import org.apache.jena.vocabulary.RDF;
 import org.apache.jena.vocabulary.RDFS;
 import org.apache.jena.vocabulary.SKOS;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -29,6 +31,7 @@ public class CodelistMaker {
 	public final static String BASE_URI = "http://id.linked-open-statistics.org/";
 	public final static String CODES_BASE_URI = BASE_URI + "codes/";
 	public final static String CONCEPTS_BASE_URI = BASE_URI + "concepts/";
+	public final static String BASE_CONCEPT_SCHEME_LABEL="Code list for";
 
 	public static void main(String[] args) throws IOException {
 
@@ -54,10 +57,9 @@ public class CodelistMaker {
 		clModel.setNsPrefix("los-codes", CODES_BASE_URI);
 		clModel.setNsPrefix("los-concepts", CONCEPTS_BASE_URI);
 
-		// Codelist code and name should be on the first line
-		// Create the concept scheme and the associated concept
-		String conceptName = normalize(clSheet.getRow(0).getCell(0).toString());
-		String clName = clSheet.getRow(0).getCell(1).toString();
+		// Create the concept scheme and the associated concept from sheet name
+		String conceptName = normalize(clSheet.getSheetName());
+		String clName = BASE_CONCEPT_SCHEME_LABEL +" "+conceptName;
 		String clURI = CODES_BASE_URI + clTag;
 		Resource scheme = clModel.createResource(clURI, SKOS.ConceptScheme);
 		scheme.addProperty(SKOS.prefLabel, clName, "fr");
@@ -75,8 +77,8 @@ public class CodelistMaker {
 		rowIterator.next();
 		while (rowIterator.hasNext()) {
 			Row currentRow = rowIterator.next();
-			String itemCode = currentRow.getCell(0).toString().trim();
-			String itemName = currentRow.getCell(1).toString().trim();
+			String itemCode = getStringValue(currentRow.getCell(0));
+			String itemName = getStringValue(currentRow.getCell(1));
 			Resource item = clModel.createResource(clURI + "/" + itemCode, concept);
 			item.addProperty(RDF.type, SKOS.Concept);
 			item.addProperty(SKOS.notation, itemCode);
@@ -85,6 +87,11 @@ public class CodelistMaker {
 		}
 
 		return clModel;
+	}
+	
+	private static String getStringValue(Cell cellule) {
+		cellule.setCellType(CellType.STRING);
+		return cellule.toString().trim();
 	}
 
 	private static String normalize(String original) {
