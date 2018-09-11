@@ -1,0 +1,35 @@
+@prefix owl:   <http://www.w3.org/2002/07/owl#> .
+@prefix los-codes: <http://id.linked-open-statistics.org/codes/> .
+@prefix los-concepts: <http://id.linked-open-statistics.org/concepts/> .
+@prefix skos:  <http://www.w3.org/2004/02/skos/core#> .
+@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
+
+los-codes:autre-test  a  skos:ConceptScheme ;
+        rdfs:seeAlso    los-concepts:Autre-test ;
+        skos:notation   "autre-test" ;
+        skos:prefLabel  "Liste de codes de test"@fr .
+
+<http://id.linked-open-statistics.org/codes/autre-test/2.0>
+        a               skos:Concept , los-concepts:Autre-test ;
+        skos:inScheme   los-codes:autre-test ;
+        skos:notation   "2.0" ;
+        skos:prefLabel  "La modalité 2"@fr .
+
+los-concepts:Autre-test
+        a                rdfs:Class , owl:Class ;
+        rdfs:seeAlso     los-codes:autre-test ;
+        rdfs:subClassOf  skos:Concept ;
+        skos:notation    "autre-test"@fr ;
+        skos:prefLabel   "autre-test"@fr .
+
+<http://id.linked-open-statistics.org/codes/autre-test/1.0>
+        a               skos:Concept , los-concepts:Autre-test ;
+        skos:inScheme   los-codes:autre-test ;
+        skos:notation   "1.0" ;
+        skos:prefLabel  "La modalité 1"@fr .
+
+<http://id.linked-open-statistics.org/codes/autre-test/3.0>
+        a               skos:Concept , los-concepts:Autre-test ;
+        skos:inScheme   los-codes:autre-test ;
+        skos:notation   "3.0" ;
+        skos:prefLabel  "La modalité 3"@fr .

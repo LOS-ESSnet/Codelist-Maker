@@ -1,0 +1,34 @@
+@prefix owl:   <http://www.w3.org/2002/07/owl#> .
+@prefix los-codes: <http://id.linked-open-statistics.org/codes/> .
+@prefix los-concepts: <http://id.linked-open-statistics.org/concepts/> .
+@prefix skos:  <http://www.w3.org/2004/02/skos/core#> .
+@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
+
+<http://id.linked-open-statistics.org/codes/test/A>
+        a               skos:Concept , los-concepts:Test ;
+        skos:inScheme   los-codes:test ;
+        skos:notation   "A" ;
+        skos:prefLabel  "La modalité A"@fr .
+
+<http://id.linked-open-statistics.org/codes/test/B>
+        a               skos:Concept , los-concepts:Test ;
+        skos:inScheme   los-codes:test ;
+        skos:notation   "B" ;
+        skos:prefLabel  "La modalité B"@fr .
+
+los-concepts:Test  a     rdfs:Class , owl:Class ;
+        rdfs:seeAlso     los-codes:test ;
+        rdfs:subClassOf  skos:Concept ;
+        skos:notation    "test"@fr ;
+        skos:prefLabel   "test"@fr .
+
+los-codes:test  a       skos:ConceptScheme ;
+        rdfs:seeAlso    los-concepts:Test ;
+        skos:notation   "test" ;
+        skos:prefLabel  "Liste de codes de test"@fr .
+
+<http://id.linked-open-statistics.org/codes/test/C>
+        a               skos:Concept , los-concepts:Test ;
+        skos:inScheme   los-codes:test ;
+        skos:notation   "C" ;
+        skos:prefLabel  "La modalité C"@fr .
