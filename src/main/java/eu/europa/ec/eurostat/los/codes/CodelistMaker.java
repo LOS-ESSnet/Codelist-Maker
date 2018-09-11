@@ -17,6 +17,8 @@ import org.apache.jena.vocabulary.RDF;
 import org.apache.jena.vocabulary.RDFS;
 import org.apache.jena.vocabulary.SKOS;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -75,8 +77,8 @@ public class CodelistMaker {
 		rowIterator.next();
 		while (rowIterator.hasNext()) {
 			Row currentRow = rowIterator.next();
-			String itemCode = currentRow.getCell(0).toString().trim();
-			String itemName = currentRow.getCell(1).toString().trim();
+			String itemCode = getStringValue(currentRow.getCell(0));
+			String itemName = getStringValue(currentRow.getCell(1));
 			Resource item = clModel.createResource(clURI + "/" + itemCode, concept);
 			item.addProperty(RDF.type, SKOS.Concept);
 			item.addProperty(SKOS.notation, itemCode);
@@ -85,6 +87,11 @@ public class CodelistMaker {
 		}
 
 		return clModel;
+	}
+	
+	private static String getStringValue(Cell cellule) {
+		cellule.setCellType(CellType.STRING);
+		return cellule.toString().trim();
 	}
 
 	private static String normalize(String original) {
